@@ -1,366 +1,508 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقرير الأداء التسويقي - مجلس الإدارة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>التقرير التنفيذي | أداء الحملات الإعلانية</title>
+    
+    <!-- Google Fonts: Cairo for elegant Arabic typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <style>
-        :root {
-            --burgundy: #800020;
-            --gold: #D4AF37;
-            --gold-light: #F4E7BD;
-            --cream: #FAF9F6;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--cream);
-            color: #333;
-        }
-
-        .bg-burgundy { background-color: var(--burgundy); }
-        .text-burgundy { color: var(--burgundy); }
-        .border-gold { border-color: var(--gold); }
-        .text-gold { color: var(--gold); }
-        
-        .hero-gradient {
-            background: linear-gradient(135deg, var(--burgundy) 0%, #4a0012 100%);
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .funnel-step {
-            clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%);
-            margin-bottom: 8px;
-            padding: 15px;
-            color: white;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .recommendation-card {
-            border-right: 5px solid var(--gold);
-            background: linear-gradient(to left, white, #fffcf5);
-        }
-
-        @media (max-width: 768px) {
-            .funnel-step {
-                clip-path: none;
-                border-radius: 8px;
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        burgundy: { // الخمري
+                            50: '#fdf2f2',
+                            100: '#fbe4e4',
+                            500: '#800020', // Burgundy Base
+                            600: '#66001a',
+                            700: '#4d0013',
+                        },
+                        gold: { // الذهبي
+                            400: '#d4af37',
+                            500: '#c5a028',
+                            600: '#a68a20',
+                        },
+                        forest: { // الشجري
+                            500: '#228b22',
+                            600: '#1e7b1e',
+                            700: '#145c14',
+                        }
+                    }
+                }
             }
         }
+    </script>
 
-        .dynamic-border {
-            position: relative;
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            overflow-x: hidden;
         }
-        .dynamic-border::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 50px;
-            height: 2px;
-            background: var(--gold);
+        
+        .report-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .report-card:hover {
+            box-shadow: 0 10px 30px rgba(128, 0, 32, 0.1);
+            border-color: #800020;
+        }
+
+        .text-gradient-burgundy {
+            background: linear-gradient(135deg, #800020 0%, #c5a028 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-burgundy-gold {
+            background: linear-gradient(135deg, #800020 0%, #a68a20 100%);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Highlight sections */
+        .priority-urgent {
+            border-right: 4px solid #800020;
+            background-color: #fdf2f2;
         }
     </style>
-</head>
-<body class="p-4 md:p-8">
 
-    <!-- Header Section -->
-    <header class="hero-gradient text-white rounded-3xl p-8 mb-10 shadow-2xl relative overflow-hidden">
-        <div class="relative z-10">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h1 class="text-3xl md:text-5xl font-extrabold mb-2 text-gold">📊 الملخص التنفيذي للمبيعات</h1>
-                    <p class="text-lg opacity-90">تحليل الأداء الرقمي الاستراتيجي - عرض مجلس الإدارة</p>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="antialiased selection:bg-burgundy-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-burgundy-500 flex items-center justify-center shadow-lg shadow-burgundy-500/20">
+                    <i data-lucide="bar-chart-2" class="text-white w-5 h-5"></i>
                 </div>
-                <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20">
-                    <span class="block text-sm uppercase tracking-widest text-gold-light">تحليل الأداء العام</span>
-                    <span class="text-2xl font-bold">جيد يميل إلى قوي 🔥</span>
+                <div>
+                    <h1 class="font-bold text-lg tracking-wide text-burgundy-500">تقرير شركة سجاد رياش </h1>
+                    <p class="text-xs text-gray-500 uppercase tracking-tighter">مراجعة أداء الربع الأول لعام 2026 </p>
                 </div>
             </div>
-            
-            <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 mt-10">
-                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p class="text-sm opacity-80 mb-1">الإنفاق</p>
-                    <p class="text-2xl font-bold text-gold">78,337</p>
+            <div class="flex items-center gap-4">
+                <span class="hidden md:flex items-center gap-2 text-sm text-gold-600 bg-gold-400/10 px-4 py-2 rounded-full border border-gold-400/20 font-bold">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-gold-500"></span>
+                    </span>
+                    الأداء عام: قوي لكن غير مستقر
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-24 px-6">
+        <div class="max-w-7xl mx-auto space-y-16">
+
+            <!-- Hero Section -->
+            <section class="reveal space-y-8">
+                <div class="text-center max-w-3xl mx-auto space-y-6">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                        أداء الحملات يحقق <span class="text-burgundy-500">مبيعات مباشرة</span>، لكن الكفاءة تتطلب تدخلاً.
+                    </h2>
+                    <p class="text-lg text-gray-600 leading-relaxed font-medium">
+                        البزنس يحقق أرباحاً واضحة، لكنه يفقد فرصة مضاعفة النتائج بنفس الميزانية الحالية بسبب خلل في كفاءة التحويل وتوزيع الميزانية.
+                    </p>
                 </div>
-                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p class="text-sm opacity-80 mb-1">الإيرادات</p>
-                    <p class="text-2xl font-bold text-gold">380,956</p>
+
+                <!-- Strategic Decision Block -->
+                <div class="report-card rounded-2xl p-1 relative overflow-hidden max-w-4xl mx-auto mt-10">
+                    <div class="bg-gray-50 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                        <div>
+                            <div class="flex items-center gap-2 text-forest-500 mb-2">
+                                <i data-lucide="zap" class="w-5 h-5"></i>
+                                <span class="font-bold text-sm tracking-widest uppercase">القرار الاستراتيجي</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">تحديث المواد الإعلانية  + تحسين التحويل</h3>
+                        </div>
+                        <div class="shrink-0">
+                            <a href="#priorities" class="bg-burgundy-500 text-white hover:bg-burgundy-600 transition-colors px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-burgundy-500/20">
+                                عرض الأولويات
+                                <i data-lucide="arrow-down-left" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p class="text-sm opacity-80 mb-1">الطلبات</p>
-                    <p class="text-2xl font-bold text-gold">954</p>
+            </section>
+
+            <!-- Main KPIs Section -->
+            <section class="reveal space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-100 pb-4">
+                    <i data-lucide="activity" class="text-burgundy-500 w-6 h-6"></i>
+                    <h3 class="text-2xl font-bold text-gray-900">الأداء الإجمالي</h3>
+                    <span class="mr-auto text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">التقييم: جيد يميل للقوة</span>
                 </div>
-                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p class="text-sm opacity-80 mb-1">تكلفة الطلب</p>
-                    <p class="text-2xl font-bold text-gold">82.1</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- KPI 1 -->
+                    <div class="report-card rounded-2xl p-6 border-t-4 border-t-forest-500">
+                        <p class="text-gray-500 text-sm font-bold mb-1">إجمالي الإيرادات</p>
+                        <h4 class="text-3xl font-black text-gray-900 mb-2">380,956</h4>
+                        <div class="flex items-center text-forest-500 text-sm font-bold">
+                            <i data-lucide="trending-up" class="w-4 h-4 ml-1"></i>
+                            مبيعات مباشرة ممتازة
+                        </div>
+                    </div>
+                    <!-- KPI 2 -->
+                    <div class="report-card rounded-2xl p-6">
+                        <p class="text-gray-500 text-sm font-bold mb-1">إجمالي الإنفاق</p>
+                        <h4 class="text-3xl font-black text-gray-900 mb-2">78,337</h4>
+                        <div class="flex items-center text-gray-400 text-sm">
+                            <i data-lucide="credit-card" class="w-4 h-4 ml-1"></i>
+                            ميزانية مستهلكة
+                        </div>
+                    </div>
+                    <!-- KPI 3 -->
+                    <div class="report-card rounded-2xl p-6 border-t-4 border-t-gold-500">
+                        <p class="text-gray-500 text-sm font-bold mb-1">عائد الإنفاق (ROAS)</p>
+                        <h4 class="text-3xl font-black text-burgundy-500 mb-2">4.86</h4>
+                        <div class="flex items-center text-gold-600 text-sm font-bold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 ml-1"></i>
+                            مؤشر جيد جداً
+                        </div>
+                    </div>
+                    <!-- KPI 4 -->
+                    <div class="report-card rounded-2xl p-6 border-t-4 border-t-burgundy-500">
+                        <p class="text-gray-500 text-sm font-bold mb-1">تكلفة الشراء (CPA)</p>
+                        <h4 class="text-3xl font-black text-gray-900 mb-2">82</h4>
+                        <div class="flex items-center text-burgundy-500 text-sm font-bold">
+                            <i data-lucide="alert-circle" class="w-4 h-4 ml-1"></i>
+                            مقبولة، مع إمكانية التحسين
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p class="text-sm opacity-80 mb-1">متوسط الطلب</p>
-                    <p class="text-2xl font-bold text-gold">399</p>
+                
+                <!-- Root Cause Warning -->
+                <div class="bg-red-50 border border-red-100 rounded-xl p-4 flex items-start md:items-center gap-4">
+                    <div class="p-2 bg-burgundy-500 rounded-lg text-white shrink-0">
+                        <i data-lucide="triangle-alert" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-burgundy-600 font-bold mb-1">المشكلة الأساسية في الأداء الإجمالي</h5>
+                        <p class="text-gray-700 text-sm font-medium">يوجد تسريب في الفانل (Funnel Leak) + تفاوت كبير جداً في الأداء بين المنتجات والمنصات.</p>
+                    </div>
                 </div>
-                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p class="text-sm opacity-80 mb-1">ROAS</p>
-                    <p class="text-2xl font-bold text-gold">4.86</p>
+            </section>
+
+            <!-- Product Breakdown -->
+            <section class="reveal space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-100 pb-4">
+                    <i data-lucide="shopping-bag" class="text-forest-500 w-6 h-6"></i>
+                    <h3 class="text-2xl font-bold text-gray-900">تحليل الأداء حسب المنتج</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Product 1 -->
+                    <div class="report-card rounded-2xl p-6 flex flex-col h-full bg-white">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h4 class="text-xl font-black text-gray-900">سجاد كبير</h4>
+                                <span class="inline-block mt-2 text-xs font-bold px-2 py-1 bg-gray-100 text-gray-600 rounded-md">جيد لكن غير مستقر</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mb-6 grow font-bold">
+                            <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                <span class="text-gray-500 text-sm">ROAS</span>
+                                <span class="text-burgundy-500">4.57</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                <span class="text-gray-500 text-sm">CPA</span>
+                                <span class="text-gray-900">86.7</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                <span class="text-gray-500 text-sm">CTR</span>
+                                <span class="text-red-600">1.1% (ضعيف)</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-xl p-4 mt-auto">
+                            <p class="text-sm text-gray-600 leading-relaxed">المنتج قوي، لكن الإعلانات لا تستخرج كامل إمكانياته.</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 (Highlight - Gold) -->
+                    <div class="report-card rounded-2xl p-6 flex flex-col h-full border-2 border-gold-500 bg-gold-50/20 relative">
+                        <div class="absolute top-2 left-2">
+                            <i data-lucide="award" class="text-gold-500 w-8 h-8 opacity-20"></i>
+                        </div>
+                        <div class="flex justify-between items-start mb-6 relative">
+                            <div>
+                                <h4 class="text-xl font-black text-gray-900">مدات</h4>
+                                <span class="inline-block mt-2 text-xs font-bold px-2 py-1 bg-gold-500 text-white rounded-md">أقل تكلفة للطلب🏆</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mb-6 grow font-bold">
+                            <div class="flex justify-between items-center border-b border-gold-100 pb-2">
+                                <span class="text-gray-600 text-sm">ROAS</span>
+                                <span class="text-forest-500 text-lg">8.32</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gold-100 pb-2">
+                                <span class="text-gray-600 text-sm">CPA</span>
+                                <span class="text-gray-900">54</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gold-100 pb-2">
+                                <span class="text-gray-600 text-sm">CTR</span>
+                                <span class="text-forest-500">1.7%</span>
+                            </div>
+                        </div>
+                        <div class="bg-gold-500 text-white rounded-xl p-4 mt-auto shadow-md">
+                            <p class="text-sm font-bold">نزول الأمطار ساهم في نجاح هذا المنتج </p>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="report-card rounded-2xl p-6 flex flex-col h-full bg-white">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h4 class="text-xl font-black text-gray-900">سجاد صلاة</h4>
+                                <span class="inline-block mt-2 text-xs font-bold px-2 py-1 bg-forest-100 text-forest-600 rounded-md">جيد، خلل في التحويل</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mb-6 grow font-bold">
+                            <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                <span class="text-gray-500 text-sm">ROAS</span>
+                                <span class="text-gray-900">4.15</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                <span class="text-gray-500 text-sm">CPA</span>
+                                <span class="text-gray-900">88</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                <span class="text-gray-500 text-sm">CTR</span>
+                                <span class="text-gray-900">1.5%</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-xl p-4 mt-auto font-medium">
+                            <p class="text-sm text-gray-600">المشكلة في الإقناع بصفحة المنتج (تسريب بعد السلة).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Platform Breakdown -->
+            <section class="reveal space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-100 pb-4">
+                    <i data-lucide="smartphone" class="text-gold-500 w-6 h-6"></i>
+                    <h3 class="text-2xl font-bold text-gray-900">أداء المنصات الإعلانية</h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 font-bold">
+                    <!-- TikTok -->
+                    <div class="report-card rounded-2xl p-5 flex items-center gap-5 hover:bg-gray-50">
+                        <div class="w-14 h-14 rounded-full bg-black flex items-center justify-center shrink-0 shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-gray-900">TikTok</h4>
+                            <div class="text-sm mt-1 flex gap-3">
+                                <span class="text-forest-600">ROAS: 5.19</span>
+                                <span class="text-red-500">CTR: 0.8%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Snapchat -->
+                    <div class="report-card rounded-2xl p-5 flex items-center gap-5 hover:bg-gray-50">
+                        <div class="w-14 h-14 rounded-full bg-gold-400 flex items-center justify-center shrink-0">
+                            <i data-lucide="ghost" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-gray-900">Snapchat</h4>
+                            <div class="text-sm mt-1 flex gap-3">
+                                <span class="text-gray-900">ROAS: 4.93</span>
+                                <span class="text-gold-600">Freq: 5.8</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instagram -->
+                    <div class="report-card rounded-2xl p-5 flex items-center gap-5 hover:bg-gray-50">
+                        <div class="w-14 h-14 rounded-full bg-burgundy-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-gray-900">Instagram</h4>
+                            <div class="text-sm mt-1 flex gap-3">
+                                <span class="text-gray-900">ROAS: 4.2</span>
+                                <span class="text-gray-600">CTR: 1.2%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Diagnosis (Root Causes) -->
+            <section class="reveal space-y-6 bg-gray-50 p-8 rounded-3xl">
+                <div class="text-center mb-10">
+                    <h3 class="text-3xl font-black text-burgundy-500 mb-3">التشخيص النهائي </h3>
+                    <p class="text-gray-600 font-bold">الأسباب الجذرية التي تمنع الحملات من تحقيق أقصى كفاءة</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-bold">
+                    <!-- Cause 1 -->
+                    <div class="report-card p-6 rounded-2xl relative bg-white">
+                        <div class="absolute -top-4 -right-4 w-10 h-10 bg-burgundy-500 text-white rounded-full flex items-center justify-center font-black text-lg shadow-lg">1</div>
+                        <h4 class="text-lg text-gray-900 mb-3 mt-2">ضعف الكريتف في الجذب</h4>
+                        <p class="text-sm text-gray-500 mb-4 font-medium">خصوصاً على منصة TikTok الدليل هو CTR منخفض.</p>
+                    </div>
+
+                    <!-- Cause 2 -->
+                    <div class="report-card p-6 rounded-2xl relative bg-white">
+                        <div class="absolute -top-4 -right-4 w-10 h-10 bg-gold-500 text-white rounded-full flex items-center justify-center font-black text-lg shadow-lg">2</div>
+                        <h4 class="text-lg text-gray-900 mb-3 mt-2">تسريب في مرحلة التحويل</h4>
+                        <p class="text-sm text-gray-500 mb-4 font-medium">خلل في صفحة الدفع (Checkout) يسبب فقدان عملاء السلة.</p>
+                    </div>
+
+                    <!-- Cause 3 -->
+                    <div class="report-card p-6 rounded-2xl relative bg-white">
+                        <div class="absolute -top-4 -right-4 w-10 h-10 bg-forest-500 text-white rounded-full flex items-center justify-center font-black text-lg shadow-lg">3</div>
+                        <h4 class="text-lg text-gray-900 mb-3 mt-2">تحديث المادة الإعلانية</h4>
+                        <p class="text-sm text-gray-500 mb-4 font-medium">الاستمرار في تحديث المواد الإعلانية لكي لا يحصل ملل عند المشاهد </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Plan -->
+            <section id="priorities" class="reveal space-y-8 pt-10 border-t border-gray-100">
+                <div class="text-center md:text-right">
+                    <h3 class="text-3xl font-black text-gray-900 mb-2">خارطة الأولويات والقرارات</h3>
+                    <p class="text-gray-500 font-bold">خطوات التنفيذ الفورية لمضاعفة النتائج بـ 30% - 60% بنفس الميزانية.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Urgent -->
+                    <div class="report-card rounded-3xl p-8 relative overflow-hidden priority-urgent shadow-xl">
+                        <div class="flex items-center gap-2 mb-6 text-burgundy-500">
+                            <i data-lucide="flame" class="w-6 h-6"></i>
+                            <h4 class="text-xl font-black">أولوية قصوى (الآن)</h4>
+                        </div>
+                        <ul class="space-y-4 font-bold text-gray-700">
+                            <li class="flex items-start gap-3">
+                                
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-burgundy-500 shrink-0 mt-1"></i>
+                                تبسيط صفحة الدفع وتقليل الحقول.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Scale -->
+                    <div class="report-card rounded-3xl p-8 border-t-4 border-t-gold-500">
+                        <div class="flex items-center gap-2 mb-6 text-gold-600">
+                            <i data-lucide="rocket" class="w-6 h-6"></i>
+                            <h4 class="text-xl font-black">توسع (أسبوع 1)</h4>
+                        </div>
+                        <ul class="space-y-4 font-bold text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-gold-500 shrink-0 mt-1"></i>
+                                إنتاج 5 فيديوهات "Hook" جديدة لـ TikTok.
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-gold-500 shrink-0 mt-1"></i>
+                                إطلاق حملة ريتارغيتنج لمن ترك السلة.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Optimization -->
+                    <div class="report-card rounded-3xl p-8 border-t-4 border-t-forest-500">
+                        <div class="flex items-center gap-2 mb-6 text-forest-600">
+                            <i data-lucide="settings-2" class="w-6 h-6"></i>
+                            <h4 class="text-xl font-black">تحسين (أسبوع 2)</h4>
+                        </div>
+                        <ul class="space-y-4 font-bold text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-forest-500 shrink-0 mt-1"></i>
+                                إضافة مراجعات فيديو داخل صفحات المنتجات.
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-forest-500 shrink-0 mt-1"></i>
+إطلاق باقات منتجات مجمّعة لتعزيز قيمة السلة وتحسين العائد من كل عملية شراء                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-right">
+                <p class="font-black text-xl mb-1">التقرير الاستراتيجي لشركة سجاد رياش </p>
+                <p class="text-gray-400 text-sm">© 2026 جميع الحقوق محفوظة   </p>
+            </div>
+            <div class="flex gap-4">
+                <div class="p-3 rounded-full bg-white/5 border border-white/10 text-gold-400">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <div class="p-3 rounded-full bg-white/5 border border-white/10 text-burgundy-400">
+                    <i data-lucide="lock" class="w-6 h-6"></i>
                 </div>
             </div>
         </div>
-        <!-- Decorative Elements -->
-        <div class="absolute top-[-50px] left-[-50px] w-64 h-64 bg-gold opacity-10 rounded-full"></div>
-    </header>
-
-    <main class="max-w-7xl mx-auto space-y-10">
-        
-        <!-- 1. Strategic Briefing -->
-        <section class="card p-8 border-r-8 border-burgundy">
-            <h2 class="text-2xl font-bold text-burgundy mb-4 flex items-center gap-3">
-                <i class="fas fa-microscope text-gold"></i> قراءة مختصرة للنتائج
-            </h2>
-            <p class="text-xl leading-relaxed">
-                الأداء يحقق عائد ممتاز، لكن الربحية الحالية ليست نتيجة كفاءة كاملة في الفانل، بل مدفوعة بـ <span class="font-bold text-burgundy underline">قوة المنتج وارتفاع متوسط قيمة الطلب</span>. هناك تسريب واضح في مراحل التحويل (خصوصًا من السلة إلى الدفع)، ما يعني أن النمو الحالي يمكن مضاعفته بدون زيادة الإنفاق.
-            </p>
-        </section>
-
-        <!-- 2. Platforms Analysis -->
-        <section>
-            <h2 class="text-2xl font-bold text-burgundy mb-6 flex items-center gap-3">
-                <i class="fas fa-layer-group text-gold"></i> 🧱 تحليل حسب المنصات
-            </h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- TikTok -->
-                <div class="card p-6 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xl font-bold flex items-center gap-2 italic"><i class="fab fa-tiktok"></i> TikTok</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-bold italic font-sans uppercase tracking-widest">Top Funnel</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-2">الإنفاق: <span class="font-bold text-gray-800">23,751</span></p>
-                        <p class="text-gray-700 text-sm leading-relaxed mb-4">
-                            منصة قوية في الجذب والتفاعل، تعتمد بشكل كبير على الفيديو وتوليد الاهتمام وليس إغلاق البيع المباشر.
-                        </p>
-                    </div>
-                    <div class="pt-4 border-t border-dashed flex justify-between items-center">
-                        <span class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> فعالة</span>
-                        <span class="bg-burgundy text-white px-3 py-1 rounded-lg text-sm">قرار: تثبيت + تحسين تحويل</span>
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto mb-16">
+                <div class="flex flex-col items-center">
+                    <p class="text-white/40 text-xs mb-2">إعداد وتقديم</p>
+                    <p class="font-bold">أ. عبدالله بن محمد شباط</p>
                 </div>
-
-                <!-- Instagram -->
-                <div class="card p-6 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xl font-bold flex items-center gap-2"><i class="fab fa-instagram"></i> Instagram</span>
-                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded font-bold italic font-sans uppercase tracking-widest">Support</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-2">الإنفاق: <span class="font-bold text-gray-800">15,557</span></p>
-                        <p class="text-gray-700 text-sm leading-relaxed mb-4">
-                            منصة داعمة، لكنها محدودة من حيث الحجم. الأداء هنا يعتمد أكثر على إعادة الاستهداف وليس الاكتساب الجديد.
-                        </p>
-                    </div>
-                    <div class="pt-4 border-t border-dashed flex justify-between items-center">
-                        <span class="text-yellow-600 font-bold"><i class="fas fa-minus-circle"></i> متوسطة</span>
-                        <span class="bg-burgundy text-white px-3 py-1 rounded-lg text-sm">قرار: تثبيت</span>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <p class="text-white/40 text-xs mb-2">البريد الإلكتروني</p>
+                    <p class="font-bold text-sm">Abdallah.shbat@gmail.com</p>
                 </div>
-
-                <!-- Snapchat -->
-                <div class="card p-6 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xl font-bold flex items-center gap-2"><i class="fab fa-snapchat"></i> Snapchat</span>
-                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-bold italic font-sans uppercase tracking-widest text-center">Bottom Funnel</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-2">الإنفاق: <span class="font-bold text-gray-800">39,028</span></p>
-                        <p class="text-gray-700 text-sm leading-relaxed mb-4">
-                            أكبر مساهم في الإنفاق والمحرك الرئيسي للمبيعات. يعتمد على الوصول العالي وتحويل مباشر نسبيًا.
-                        </p>
-                    </div>
-                    <div class="pt-4 border-t border-dashed flex justify-between items-center">
-                        <span class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> فعالة جداً</span>
-                        <span class="bg-burgundy text-white px-3 py-1 rounded-lg text-sm">قرار: توسعة مدروسة</span>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <p class="text-white/40 text-xs mb-2">للتواصل المباشر</p>
+                    <p class="font-bold text-sm" dir="ltr">0553940572</p>
                 </div>
             </div>
-        </section>
+    </footer>
 
-        <!-- 3. Funnel & Diagnostics -->
-        <section class="grid lg:grid-cols-2 gap-10">
-            <!-- Funnel Visualization -->
-            <div class="card p-8">
-                <h3 class="text-xl font-bold text-burgundy mb-6 italic underline decoration-gold">🔍 تحليل قمع المبيعات (الفانل)</h3>
-                <div class="space-y-2">
-                    <div class="funnel-step bg-burgundy w-full">
-                        <span>الوصول (2.84 مليون)</span>
-                        <span class="text-gold">بداية الرحلة</span>
-                    </div>
-                    <div class="funnel-step bg-[#6b001b] w-[90%]">
-                        <span>النقرات (80,369)</span>
-                        <span class="text-xs">جذب قوي</span>
-                    </div>
-                    <div class="funnel-step bg-[#5a0016] w-[70%] relative">
-                        <span>مشاهدة المنتج (38,000)</span>
-                        <div class="absolute -left-10 text-red-500 animate-pulse font-bold">تسريب ⚠️</div>
-                    </div>
-                    <div class="funnel-step bg-[#4a0012] w-[40%]">
-                        <span>سلة المشتريات (6,359)</span>
-                        <span class="text-xs italic">فقدان واضح</span>
-                    </div>
-                    <div class="funnel-step bg-[#3a000e] w-[25%] border-2 border-gold">
-                        <span>بدء الدفع (3,028)</span>
-                        <span class="text-xs text-gold">فقدان > 50%</span>
-                    </div>
-                    <div class="funnel-step bg-gold w-[15%] !text-burgundy">
-                        <span>التحويل (954)</span>
-                        <span class="font-black text-sm uppercase italic tracking-widest text-center">ROI: 4.86</span>
-                    </div>
-                </div>
-                <div class="mt-8 bg-red-50 p-4 rounded-xl border border-red-100">
-                    <h4 class="font-bold text-red-800 mb-2">التشخيص: أين المشكلة؟</h4>
-                    <p class="text-sm text-red-700">منتصف وأسفل الفانل (Checkout). السبب المحتمل: تجربة دفع غير مريحة، تكاليف إضافية، أو ضعف الإقناع النهائي.</p>
-                </div>
-            </div>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-            <!-- Content & Engagement Analysis -->
-            <div class="space-y-6">
-                <div class="card p-6">
-                    <h3 class="font-bold text-burgundy mb-4 flex items-center gap-2">🎬 تحليل المواد الإعلانية</h3>
-                    <div class="grid grid-cols-3 gap-4 mb-6">
-                        <div class="text-center">
-                            <p class="text-xs text-gray-500 uppercase tracking-widest text-center">CTR</p>
-                            <p class="text-xl font-bold">1.23%</p>
-                            <p class="text-[10px] text-green-600 italic uppercase tracking-widest text-center">مقبول</p>
-                        </div>
-                        <div class="text-center border-x border-gray-100">
-                            <p class="text-xs text-gray-500 uppercase tracking-widest text-center">التكرار</p>
-                            <p class="text-xl font-bold">2.28</p>
-                            <p class="text-[10px] text-green-600 italic uppercase tracking-widest text-center">ممتاز</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-xs text-gray-500 uppercase tracking-widest text-center">مشاهدات</p>
-                            <p class="text-xl font-bold text-burgundy">عالية</p>
-                        </div>
-                    </div>
-                    <ul class="text-sm space-y-2 text-gray-700">
-                        <li class="flex items-center gap-2 font-bold italic"><i class="fas fa-check text-green-500"></i> الإعلان يجذب بشكل مقبول.</li>
-                        <li class="flex items-center gap-2 font-bold italic"><i class="fas fa-times text-red-500"></i> ليس قوياً بما يكفي لرفع CTR لمستوى أعلى.</li>
-                        <li class="flex items-center gap-2 font-bold italic"><i class="fas fa-info-circle text-blue-500"></i> لا يوجد تشبع (Frequency منخفض).</li>
-                    </ul>
-                </div>
+        // Reveal animations on scroll
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
 
-                <div class="card p-6 bg-burgundy text-white">
-                    <h3 class="font-bold text-gold mb-4 flex items-center gap-2 italic">👥 التفاعل</h3>
-                    <div class="flex justify-between text-center mb-4">
-                        <div><p class="text-lg font-bold">2685</p><p class="text-[10px] opacity-70">إعجاب</p></div>
-                        <div><p class="text-lg font-bold">70</p><p class="text-[10px] opacity-70">تعليق</p></div>
-                        <div><p class="text-lg font-bold">163</p><p class="text-[10px] opacity-70">مشاركة</p></div>
-                    </div>
-                    <p class="text-xs leading-relaxed border-t border-white/20 pt-4">
-                        التفاعل موجود لكنه ليس قوي مقارنة بالإنفاق؛ مما يدل على أن الإعلانات <span class="text-gold font-bold italic">بيعية أكثر من كونها جذابة/فائرية</span>. التفاعل فعلي ويخدم المبيعات جزئياً.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Strategic Recommendations -->
-        <section>
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-burgundy flex items-center gap-3 italic underline decoration-gold underline-offset-4">
-                    <i class="fas fa-rocket text-gold"></i>🚀 التوصيات الاستراتيجية
-                </h2>
-                <span class="bg-gold/20 text-burgundy px-4 py-1 rounded-full text-sm font-bold border border-gold">خطة العمل</span>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="card p-6 recommendation-card">
-                    <span class="text-burgundy font-black text-4xl opacity-10 absolute left-4 top-4">01</span>
-                    <h4 class="font-bold text-burgundy mb-2">تحسين صفحة الدفع</h4>
-                    <p class="text-xs text-gray-500 mb-3 italic">المشكلة: تسريب في Checkout</p>
-                    <p class="text-sm mb-4 leading-relaxed italic uppercase tracking-widest text-center">تبسيط الخطوات + وضوح الأسعار + خيارات دفع متعددة.</p>
-                    <div class="bg-green-50 p-2 rounded text-xs text-green-700 font-bold italic uppercase tracking-widest text-center">
-                        النتيجة: رفع معدل الشراء 20–30%
-                    </div>
-                </div>
-
-                <div class="card p-6 recommendation-card">
-                    <span class="text-burgundy font-black text-4xl opacity-10 absolute left-4 top-4">02</span>
-                    <h4 class="font-bold text-burgundy mb-2">تعزيز الثقة الرقمية</h4>
-                    <p class="text-xs text-gray-500 mb-3 italic">المشكلة: ضعف الإقناع النهائي</p>
-                    <p class="text-sm mb-4 leading-relaxed italic uppercase tracking-widest text-center">إضافة عناصر ثقة (ضمان – آراء عملاء – توضيح الشحن).</p>
-                    <div class="bg-green-50 p-2 rounded text-xs text-green-700 font-bold italic uppercase tracking-widest text-center">
-                        النتيجة: تقليل التردد قبل الدفع
-                    </div>
-                </div>
-
-                <div class="card p-6 recommendation-card">
-                    <span class="text-burgundy font-black text-4xl opacity-10 absolute left-4 top-4">03</span>
-                    <h4 class="font-bold text-burgundy mb-2">تطوير الزوايا الإعلانية</h4>
-                    <p class="text-xs text-gray-500 mb-3 italic">المشكلة: CTR متوسط</p>
-                    <p class="text-sm mb-4 leading-relaxed italic uppercase tracking-widest text-center">تطوير Hook أقوى + عرض أوضح للمنتج.</p>
-                    <div class="bg-green-50 p-2 rounded text-xs text-green-700 font-bold italic uppercase tracking-widest text-center">
-                        النتيجة: تقليل تكلفة الشراء
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Strategic Management Note -->
-        <section class="bg-white p-8 rounded-3xl shadow-xl border-2 border-gold relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-2 bg-gold text-burgundy font-bold text-xs rounded-bl-xl italic">ملاحظة استراتيجية للإدارة</div>
-            <h3 class="text-xl font-bold text-burgundy mb-4">أبعاد القيمة المضافة للتسويق:</h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="flex items-start gap-3">
-                    <i class="fas fa-chart-line text-gold mt-1"></i>
-                    <p class="text-sm font-bold italic uppercase tracking-widest">رفع الطلب العام على المنتجات</p>
-                </div>
-                <div class="flex items-start gap-3">
-                    <i class="fas fa-store text-gold mt-1"></i>
-                    <p class="text-sm font-bold italic uppercase tracking-widest">دعم مباشر لمبيعات المحل</p>
-                </div>
-                <div class="flex items-start gap-3">
-                    <i class="fas fa-users-cog text-gold mt-1"></i>
-                    <p class="text-sm font-bold italic uppercase tracking-widest">دعم قطاع الجملة (تواصل خارجي)</p>
-                </div>
-                <div class="flex items-start gap-3">
-                    <i class="fas fa-award text-gold mt-1"></i>
-                    <p class="text-sm font-bold italic uppercase tracking-widest">بناء وترسيخ الثقة بالعلامة التجارية</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer / Executive Summary -->
-        <footer class="bg-burgundy text-white p-8 rounded-3xl text-center shadow-2xl border-b-8 border-gold">
-            <h2 class="text-2xl font-bold text-gold mb-4 italic uppercase tracking-widest text-center">🔥 الخلاصة التنفيذية (بأسلوب الإدارة)</h2>
-            <div class="max-w-3xl mx-auto space-y-4 text-xl italic uppercase tracking-widest text-center">
-                <p>المنظومة الحالية تربح، لكن <span class="text-gold font-bold italic underline decoration-gold underline-offset-4">ليس بأقصى طاقتها</span>.</p>
-                <p class="opacity-80">أكبر رافعة نمو حالياً ليست زيادة الميزانية...</p>
-                <p class="text-2xl font-black text-gold animate-pulse">بل إصلاح التحويل.</p>
-            </div>
-        </footer>
-
-    </main>
-
-    <div class="text-center mt-10 text-gray-400 text-xs italic uppercase tracking-widest">
-        تم إعداد هذا التقرير لغرض العرض الاستراتيجي لمجلس الإدارة | 2026
-    </div>
-
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
